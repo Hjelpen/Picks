@@ -1,25 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Picks.SchoolProject.Data;
 using Picks.SchoolProject.Models;
 
 namespace Picks.SchoolProject.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
         {
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var categories = _context.Categories.ToList();
+
             return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+        public async Task<IActionResult> CreateCategory(string category)
+        {       
+            if (ModelState.IsValid)
+            {
+                Category Category = new Category();
+                {
+                    Category.Name = category;
+                }
+                _context.Add(Category);
+                await _context.SaveChangesAsync();
+            }
 
-            return View();
+            return View("Index");
         }
 
         public IActionResult Contact()
@@ -31,7 +47,7 @@ namespace Picks.SchoolProject.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

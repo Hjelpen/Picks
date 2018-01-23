@@ -2,9 +2,32 @@
     ViewData["Title"] = "Picks";
 }
 
-<div>
-    <h1>Welcome to Picks</h1>
-    <p>The best place to upload and download images!</p>
+<div class="container">
+    <div>
+        <h1>Welcome to Picks</h1>
+        <p>The best place to upload and download images!</p>
+    </div> 
+    <div>
+        @using (Html.BeginForm("CreateCategory", "Home"))
+        {
+            <div class="form-group col-md-4">
+                <label for="Category">Create a new category!</label>
+                <input type="text" name="category" class="form-control" id="Category">
+                <br/>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>          
+        }
+    </div>
+</div>
+
+
+
+
+
+
+     
     
 
-</div>
+
+
+
