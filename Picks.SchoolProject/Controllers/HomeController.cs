@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Picks.SchoolProject.Data;
 using Picks.SchoolProject.Models;
 
@@ -19,6 +21,8 @@ namespace Picks.SchoolProject.Controllers
         public async Task<IActionResult> Index()
         {
             var categories = _context.Categories.ToList();
+           
+            ViewBag.Categories = categories;
 
             return View();
         }
@@ -36,13 +40,6 @@ namespace Picks.SchoolProject.Controllers
             }
 
             return View("Index");
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
         }
 
         public IActionResult Error()

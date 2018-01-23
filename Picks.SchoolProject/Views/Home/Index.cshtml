@@ -6,28 +6,95 @@
     <div>
         <h1>Welcome to Picks</h1>
         <p>The best place to upload and download images!</p>
-    </div> 
+    </div>
+    
+
     <div>
-        @using (Html.BeginForm("CreateCategory", "Home"))
-        {
-            <div class="form-group col-md-4">
-                <label for="Category">Create a new category!</label>
-                <input type="text" name="category" class="form-control" id="Category">
-                <br/>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>          
-        }
+        <h1>Upload</h1>       
+        <div>
+            <div class="row">
+                <div class="col-6 col-sm-6 col-lg-6">
+                    <label id="imagetutHelper" class="custom-file" for="image">
+                    </label>
+                    <div id="error_image">
+                    </div>
+                    <div action="/api/file-upload/image" acceptedFiles="image/jpeg,image/jpg,image/gif,image/png," class="dropzone dz-clickable" id="fileUploaderImages">
+                        <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+                    </div>
+                    <input id="image" type="file" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
+                </div>
+            </div>
+
+            <p>Choose a category</p>
+            @Html.DropDownList("Categories", new SelectList(ViewBag.Categories, "Id", "Name"))
+        </div>
+        <hr/>
+        <div>
+            @using (Html.BeginForm("CreateCategory", "Home"))
+            {
+                <div class="form-group col-md-4">
+                    <label for="Category">Create a new category!</label>
+                    <input type="text" name="category" class="form-control" id="Category">
+                    <br />
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
+@section scripts
+{
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+    <script type="text/javascript">
 
 
+        var imageInfo = {
+            images: [],
+            category: []
+        };
 
+        Dropzone.autoDiscover = false;
 
+        var dropzone = new Dropzone("#fileUploaderImages", {
+            acceptedFiles: "image/*",
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 20, // MB
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            maxFiles: 1,
+            accept: function(file, done) {
+                imageInfo.images.push(file);
+                console.log(imageInfo);
+                $('#error_image').hide();
+                done();
+            },
+            error: function(file, error) {
+                $('#error_image')
+                    .addClass("alert alert-danger")
+                    .text(error)
+                    .show();
 
-     
-    
+                this.removeFile(file);
+            },
+            success: function(file, response) {
+            }
+        });
 
+        $("#Categories").change(function() {
+            imageInfo.category = [];
+            var categoryname = $("#Categories option:selected").text();
+            imageInfo.category.push(categoryname);
+            console.log(imageInfo);
+        });
 
+        dropzone.on('removedfile', function (file) {
+            imageInfo.images = [];
+        });
 
+    </script>
+}
 
