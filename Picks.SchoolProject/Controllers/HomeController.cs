@@ -39,6 +39,13 @@ namespace Picks.SchoolProject.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Route("api/create")]
+        public async Task<IActionResult> SaveImage()
+        {
+
             return View("Index");
         }
 
