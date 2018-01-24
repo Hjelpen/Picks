@@ -46,7 +46,8 @@ namespace Picks.SchoolProject.Controllers
         public async Task<IActionResult> SaveImage()
         {
 
-            return View("Index");
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Error()

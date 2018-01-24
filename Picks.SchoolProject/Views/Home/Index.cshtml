@@ -7,10 +7,9 @@
         <h1>Welcome to Picks</h1>
         <p>The best place to upload and download images!</p>
     </div>
-    
-
+ 
     <div>
-        <h1>Upload</h1>       
+        <h1>Upload</h1>   
         <div>
             <div class="row">
                 <div class="col-6 col-sm-6 col-lg-6">
@@ -18,12 +17,13 @@
                     </label>
                     <div id="error_image">
                     </div>
-                    <div action="/api/file-upload/image" acceptedFiles="image/jpeg,image/jpg,image/gif,image/png," class="dropzone dz-clickable" id="fileUploaderImages">
+                    <div action="/api/file-upload/image" acceptedFiles="image/jpeg,image/jpg,image/png," class="dropzone dz-clickable" id="fileUploaderImages">
                         <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
                     </div>
                     <input id="image" type="file" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
                 </div>
             </div>
+            <button type="button" id="upload" class="btn btn-success">Upload Image!</button>
 
             <p>Choose a category</p>
             @Html.DropDownList("Categories", new SelectList(ViewBag.Categories, "Id", "Name"))
@@ -58,11 +58,10 @@
         };
 
         Dropzone.autoDiscover = false;
-
         var dropzone = new Dropzone("#fileUploaderImages", {
-            acceptedFiles: "image/*",
-            paramName: "file", // The name that will be used to transfer the file
-            maxFilesize: 20, // MB
+            acceptedFiles: "image/jpeg,image/jpg,image/png",
+            paramName: "file", 
+            maxFilesize: 100, 
             autoProcessQueue: false,
             addRemoveLinks: true,
             maxFiles: 1,
@@ -95,6 +94,21 @@
             imageInfo.images = [];
         });
 
+        $("#upload").click(function () {
+            $.ajax({
+                url: 'api/create',
+                type: 'POST',
+                contentType: 'application/json',
+                data: imageInfo,
+                processData: false,
+                success: function( data ) {
+                    console.log(data);
+                },
+                error: function( err ){
+                    console.log( err );
+                }
+            });
+        });
     </script>
 }
 
