@@ -54,7 +54,8 @@ namespace Picks.SchoolProject.Controllers
         {
             var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images");
             var guid = Guid.NewGuid();
-            var filePath = Path.Combine(uploads, guid + file.FileName);
+            var fileUrl = guid + file.FileName;
+            var filePath = Path.Combine(uploads, fileUrl);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
@@ -65,9 +66,9 @@ namespace Picks.SchoolProject.Controllers
             var newImage = new Image();
             {
                 newImage.Uploaded = DateTime.UtcNow;
-                newImage.Url = filePath;
+                newImage.Url = fileUrl;
+                newImage.CategoryId = category.Id;
                 newImage.Name = file.FileName;
-                newImage.ImageId = category.Id;
             }
 
             _context.Images.Add(newImage);

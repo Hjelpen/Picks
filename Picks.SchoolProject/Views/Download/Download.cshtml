@@ -1,5 +1,14 @@
-﻿@{
+﻿@model IEnumerable<Picks.SchoolProject.Models.Image>
+@{
     ViewData["Title"] = "Download";
 }
 
 <p>Download!</p>
+
+<div class="container col-md-12">
+    @foreach (var item in Model)
+    {
+        <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
+    }
+</div>
+

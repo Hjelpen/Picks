@@ -11,7 +11,7 @@ namespace Picks.SchoolProject.Models
         public string Url { get; set; }      
         public string Name { get; set; }
         public DateTime Uploaded { get; set; }
-        public int ImageId { get; set; }
+        public int CategoryId { get; set; }
     }
 
 }
