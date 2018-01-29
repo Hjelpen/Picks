@@ -20,7 +20,7 @@
                     <div action="/api/file-upload/image" acceptedFiles="image/jpeg,image/jpg,image/png," class="dropzone dz-clickable" id="fileUploaderImages">
                         <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
                     </div>
-                    <input id="image" type="file" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
+                    <input type="file" id="image" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
                 </div>
             </div>
             <button type="button" id="upload" class="btn btn-success">Upload Image!</button>
@@ -58,30 +58,32 @@
         };
 
         Dropzone.autoDiscover = false;
-        var dropzone = new Dropzone("#fileUploaderImages", {
-            acceptedFiles: "image/jpeg,image/jpg,image/png",
-            paramName: "file", 
-            maxFilesize: 100, 
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            maxFiles: 1,
-            accept: function(file, done) {
-                imageInfo.images.push(file);
-                console.log(imageInfo);
-                $('#error_image').hide();
-                done();
-            },
-            error: function(file, error) {
-                $('#error_image')
-                    .addClass("alert alert-danger")
-                    .text(error)
-                    .show();
+        var dropzone = new Dropzone("#fileUploaderImages",
+            {
+                acceptedFiles: "image/jpeg,image/jpg,image/png",
+                paramName: "file",
+                maxFilesize: 100,
+                autoProcessQueue: false,
+                addRemoveLinks: true,
+                maxFiles: 1,
+                accept: function(file, done) {
+                    imageInfo.images.push(file);
+                    console.log(imageInfo);
+                    $('#error_image').hide();
+                    done();
+                },
+                error: function(file, error) {
+                    $('#error_image')
+                        .addClass("alert alert-danger")
+                        .text(error)
+                        .show();
 
-                this.removeFile(file);
-            },
-            success: function(file, response) {
-            }
-        });
+                    this.removeFile(file);
+                },
+                success: function (file, response) {
+
+                }
+            });
 
         $("#Categories").change(function() {
             imageInfo.category = [];
@@ -90,24 +92,18 @@
             console.log(imageInfo);
         });
 
-        dropzone.on('removedfile', function (file) {
-            imageInfo.images = [];
+        dropzone.on('removedfile',
+            function(file) {
+                imageInfo.images = [];
+            });
+
+        dropzone.on('sending', function (file, xhr, formData) {
+            formData.append('name', imageInfo.category);
         });
 
-        $("#upload").click(function () {
-            $.ajax({
-                url: 'api/create',
-                type: 'POST',
-                contentType: 'application/json',
-                data: imageInfo,
-                processData: false,
-                success: function( data ) {
-                    console.log(data);
-                },
-                error: function( err ){
-                    console.log( err );
-                }
-            });
+
+        $("#upload").click(function () {         
+            dropzone.processQueue();
         });
     </script>
 }
