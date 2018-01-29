@@ -11,9 +11,10 @@ using System;
 namespace Picks.SchoolProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180129182528_test34")]
+    partial class test34
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +38,7 @@ namespace Picks.SchoolProject.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ImageId");
+                    b.Property<int?>("CategoryId");
 
                     b.Property<string>("Name");
 
@@ -47,7 +48,16 @@ namespace Picks.SchoolProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Picks.SchoolProject.Models.Image", b =>
+                {
+                    b.HasOne("Picks.SchoolProject.Models.Category")
+                        .WithMany("Images")
+                        .HasForeignKey("CategoryId");
                 });
 #pragma warning restore 612, 618
         }

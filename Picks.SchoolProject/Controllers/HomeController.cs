@@ -66,6 +66,8 @@ namespace Picks.SchoolProject.Controllers
             {
                 newImage.Uploaded = DateTime.UtcNow;
                 newImage.Url = filePath;
+                newImage.Name = file.FileName;
+                newImage.ImageId = category.Id;
             }
 
             _context.Images.Add(newImage);
