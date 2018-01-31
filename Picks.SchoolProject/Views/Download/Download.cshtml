@@ -5,13 +5,31 @@
 
 <p>Download!</p>
 
-<div class="container col-md-12">
-    @foreach (var item in Model)
+<div>
+    <p>Filter on category:</p>
+    @using (Html.BeginForm("Filter", "Download", FormMethod.Post))
     {
-        <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
-        <a href="@Url.Action("DownloadImage", "Download", new {url= @item.Url})" class="elements">
-            <span>Download Image!</span>
-        </a>
+        @Html.DropDownList("Id", (IEnumerable<SelectListItem>)ViewBag.Categories, "All", new { @class = "form-control" })
+        <input type="submit" value="Filter" class="btn btn-primary" />
     }
 </div>
+
+@if (!Model.Any())
+{
+    <h1>No images found in this category!</h1>
+}
+else
+{
+    <div class="container col-md-12">
+        @foreach (var item in Model)
+        {    
+            <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive"/>
+            <a href="@Url.Action("DownloadImage", "Download", new {url = @item.Url})" class="elements">
+                <span>Download Image!</span>
+            </a>
+            <button type="button" class="btn btn-primary">Add to basket!</button>
+        }
+    </div>
+}
+
 
