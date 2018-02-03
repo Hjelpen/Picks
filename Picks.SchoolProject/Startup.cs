@@ -27,6 +27,18 @@ namespace Picks.SchoolProject
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+
+            services.AddDistributedRedisCache(opt =>
+            {
+                opt.Configuration = Configuration.GetConnectionString("Redis");
+                opt.InstanceName = "main_";
+            });
+
+            services.AddSession(opt =>
+            {
+                opt.Cookie.Name = "picks";
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +55,8 @@ namespace Picks.SchoolProject
             }
 
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

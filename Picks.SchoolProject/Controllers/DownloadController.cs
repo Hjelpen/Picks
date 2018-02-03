@@ -4,21 +4,26 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.OData.Atom;
+using Microsoft.Extensions.Caching.Distributed;
 using Picks.SchoolProject.Data;
 using Picks.SchoolProject.Models;
+using Picks.SchoolProject.Utility;
 
 namespace Picks.SchoolProject.Controllers
 {
     public class DownloadController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDistributedCache _cache;
 
-        public DownloadController(ApplicationDbContext context)
+        public DownloadController(ApplicationDbContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         public IActionResult Download()
@@ -53,5 +58,18 @@ namespace Picks.SchoolProject.Controllers
 
             return View("Download", images);
         }
+
+        public IActionResult Basket(string file)
+        {
+            var filepath = @"~/images/" + file;
+
+            var sessionImage = HttpContext.Session.Get("file");
+            
+           HttpContext.Session.SetString(filepath, "file");
+
+            return RedirectToAction("Download", "Download");
+        }
+
     }
+
 }

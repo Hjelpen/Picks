@@ -22,12 +22,15 @@ else
 {
     <div class="container col-md-12">
         @foreach (var item in Model)
-        {    
-            <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive"/>
+        {
+            <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
             <a href="@Url.Action("DownloadImage", "Download", new {url = @item.Url})" class="elements">
                 <span>Download Image!</span>
             </a>
-            <button type="button" class="btn btn-primary">Add to basket!</button>
+            using (Html.BeginForm("Basket", "Download", new { file = item.Url }, FormMethod.Post))
+            {
+                <input type="submit" value="Add 10 Items to bag" />
+            }
         }
     </div>
 }
