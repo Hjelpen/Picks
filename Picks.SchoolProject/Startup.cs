@@ -34,6 +34,7 @@ namespace Picks.SchoolProject
                 opt.InstanceName = "main_";
             });
 
+
             services.AddSession(opt =>
             {
                 opt.Cookie.Name = "picks";

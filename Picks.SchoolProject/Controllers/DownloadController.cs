@@ -61,11 +61,9 @@ namespace Picks.SchoolProject.Controllers
 
         public IActionResult Basket(string file)
         {
-            var filepath = @"~/images/" + file;
-
-            var sessionImage = HttpContext.Session.Get<string>("file");
+            var sessionImage = HttpContext.Session.GetString("file");
             
-           HttpContext.Session.Set("file", filepath);
+           HttpContext.Session.SetString("file", file);       
 
             return RedirectToAction("Download", "Download");
         }

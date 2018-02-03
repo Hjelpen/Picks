@@ -21,11 +21,12 @@ namespace Picks.SchoolProject.Controllers
 
         public IActionResult Basket()
         {
-            var sessionImage = HttpContext.Session.Get<string>("file");
 
-            ViewBag.Images = sessionImage;
+            var sessionImage = HttpContext.Session.GetString("file");
+
+            ViewBag.Url = sessionImage;
 
             return View();
         }
     }
-}
+}   
