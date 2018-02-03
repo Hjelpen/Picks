@@ -65,7 +65,7 @@ namespace Picks.SchoolProject.Controllers
 
             var sessionImage = HttpContext.Session.Get<string>("file");
             
-           HttpContext.Session.SetString(filepath, "file");
+           HttpContext.Session.Set("file", filepath);
 
             return RedirectToAction("Download", "Download");
         }
