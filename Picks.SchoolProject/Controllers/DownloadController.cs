@@ -63,7 +63,7 @@ namespace Picks.SchoolProject.Controllers
         {
             var filepath = @"~/images/" + file;
 
-            var sessionImage = HttpContext.Session.Get("file");
+            var sessionImage = HttpContext.Session.Get<string>("file");
             
            HttpContext.Session.SetString(filepath, "file");
 

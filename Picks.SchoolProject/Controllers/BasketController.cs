@@ -21,7 +21,7 @@ namespace Picks.SchoolProject.Controllers
 
         public IActionResult Basket()
         {
-            var sessionImage = HttpContext.Session.GetString("file");
+            var sessionImage = HttpContext.Session.Get<string>("file");
 
             ViewBag.Images = sessionImage;
 
