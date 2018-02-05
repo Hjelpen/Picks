@@ -61,9 +61,22 @@ namespace Picks.SchoolProject.Controllers
 
         public IActionResult Basket(string file)
         {
-            var sessionImage = HttpContext.Session.GetString("file");
+            var sessionImage = HttpContext.Session.Get<List<string>>("var");
+
+            List<string> myList = new List<string>();
+
+            if (sessionImage == null)
+            {             
+                myList.Add(file);
+                HttpContext.Session.Set("var", myList);
+            }
+            else
+            {
+               List<string> myList1 = new List<string>(sessionImage);
+               myList1.Add(file);
+               HttpContext.Session.Set("var", myList1);
+            }
             
-           HttpContext.Session.SetString("file", file);       
 
             return RedirectToAction("Download", "Download");
         }

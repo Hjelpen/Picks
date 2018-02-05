@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,33 @@ namespace Picks.SchoolProject.Controllers
         {
             _cache = cache;
         }
+        public IActionResult DownloadImage(string url)
+        {
+            var filepath = @"~/images/" + url;
+
+            return File(filepath, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(filepath));
+        }
 
         public IActionResult Basket()
         {
 
-            var sessionImage = HttpContext.Session.GetString("file");
+            var sessionImage = HttpContext.Session.Get<List<string>>("var");
 
-            ViewBag.Url = sessionImage;
+            return View(sessionImage);
+        }
 
-            return View();
+        public IActionResult RemoveFromBasket(string image)
+        {
+
+            var sessionImage = HttpContext.Session.Get<List<string>>("var");
+
+            List<string> myList = new List<string>(sessionImage);
+
+            myList.Remove(image);
+
+            HttpContext.Session.Set("var", myList);
+
+            return RedirectToAction("Basket", "Basket");
         }
     }
 }   

@@ -5,6 +5,31 @@
 
 <h2>Basket</h2>
 
-<div class="container col-md-12">
-    <img src="~/images/@ViewBag.Url" style="margin: 0 auto" alt="image" class="img-responsive" />
-</div>
+@if (Model == null)
+{
+    <h1>No images in the basket</h1>
+}
+else
+{
+    foreach (var item in Model)
+    {
+    <div class="container col-md-12">
+        <img src="~/images/@item" style="margin: 0 auto " alt="image" class="img-responsive" />
+        <div>
+            <a href="@Url.Action("DownloadImage", "Basket", new {url = @item})" class="elements">
+                <span>Download Image!</span>
+            </a>
+        </div>
+        <div>
+            <a href="@Url.Action("RemoveFromBasket", "Basket", new {image = @item})" class="elements">
+                <span type="button" class="btn btn-danger">Remove from basket!</span>
+            </a>
+        </div>
+    </div>      
+    }
+
+    if (Model.Count > 1)
+     {
+        
+     }
+}
