@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div>
         <p>Filter on category:</p>
-        @using (Html.BeginForm("Filter", "Download", FormMethod.Post))
+        @using (Html.BeginForm("Download", "Download", FormMethod.Post))
         {
             @Html.DropDownList("Id", (IEnumerable<SelectListItem>)ViewBag.Categories, "All", new { @class = "form-control" })
             <br/>

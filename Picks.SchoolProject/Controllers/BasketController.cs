@@ -57,15 +57,24 @@ namespace Picks.SchoolProject.Controllers
         public IActionResult DownloadAsZip()
         {
             var sessionImageList = HttpContext.Session.Get<List<string>>("var");
-            List<string> filepaths = new List<string>();
+     
 
-            foreach (var item in sessionImageList)
+            Guid guidName = Guid.NewGuid();
+            string returnName = guidName.ToString() + ".zip";
+            string rootPath = _hostingEnvironment.WebRootPath + "/images/";
+            string zipPath = _hostingEnvironment.WebRootPath + "/zip/";
+
+            var zip = ZipFile.Open(zipPath + returnName, ZipArchiveMode.Create);
+            foreach (var file in sessionImageList)
             {
-                var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images\\" + item);
-                filepaths.Add(uploads);
+                zip.CreateEntryFromFile(rootPath + file, Path.GetFileName(rootPath + file), CompressionLevel.Optimal);
             }
 
-            return View("Basket");
+            zip.Dispose();
+
+            var zipReturn = @"~/zip/" + returnName;
+
+            return File(zipReturn, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(zipReturn));
         }
     }
 }
