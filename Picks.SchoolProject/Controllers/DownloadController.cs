@@ -32,12 +32,12 @@ namespace Picks.SchoolProject.Controllers
 
             if (id == 0)
             {           
-                var imageList = _context.Images.ToList();
+                var imageList = _context.Images.OrderByDescending(x => x.Uploaded).ToList();
                 return View(imageList);
             }
             else
             {
-                var imagequery = _context.Images.Where(x => x.CategoryId == id).ToList();        
+                var imagequery = _context.Images.Where(x => x.CategoryId == id).OrderByDescending(x => x.Uploaded).ToList();        
                 return View(imagequery);
             }
         }
