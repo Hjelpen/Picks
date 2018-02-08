@@ -14,7 +14,7 @@ else
     foreach (var item in Model)
     {
     <div class="container col-md-12">
-        <img src="~/images/@item" style="margin: 0 auto " alt="image" class="img-responsive" />
+        <img src="~/images/@item" width="200" height="40" style="margin: 0 auto " alt="image" class="img-responsive" />
         <div>
             <a href="@Url.Action("DownloadImage", "Basket", new {url = @item})" class="elements">
                 <span>Download Image!</span>
@@ -23,15 +23,18 @@ else
         <div>
             <a href="@Url.Action("RemoveFromBasket", "Basket", new {image = @item})" class="elements">
                 <span type="button" class="btn btn-danger">Remove from basket!</span>
+                <br />
             </a>
         </div>
     </div>      
     }
-
-    if (Model.Count > 1)
-     {
-         <a href="@Url.Action("DownloadAsZip", "Basket")" class="elements">
-             <span type="button" class="btn btn-success">Download as zip!</span>
-         </a>
-     }
+    <div>
+        @if (Model.Count > 1)
+        {
+        <a href="@Url.Action("DownloadAsZip", "Basket")" class="elements">
+            <span type="button" class="btn btn-success">Download as zip!</span>
+        </a>
+        }
+    </div>
+   
 }

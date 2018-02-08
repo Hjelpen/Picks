@@ -26,7 +26,7 @@
             <div class="container col-md-12">
                 @foreach (var item in Model)
                 {
-                    <img src="~/images/@item.Url" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
+                    <img src="~/images/@item.Url" width="200" height="40" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
                     <a href="@Url.Action("DownloadImage", "Download", new {url = @item.Url})" class="elements">
                         <span>Download Image!</span>
                     </a>
