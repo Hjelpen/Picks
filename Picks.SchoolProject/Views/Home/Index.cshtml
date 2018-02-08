@@ -23,10 +23,12 @@
                     <input type="file" id="image" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
                 </div>
             </div>
-            <button type="button" id="upload" class="btn btn-success">Upload Image!</button>
-
-            <p>Choose a category</p>
-            @Html.DropDownList("Categories", new SelectList(ViewBag.Categories, "Id", "Name"))
+            <div>
+                <p>Choose a category</p>
+                @Html.DropDownList("Categories", new SelectList(ViewBag.Categories, "Id", "Name"))
+            </div>
+            <br/>
+            <button type="button" id="upload" class="btn btn-success">Upload Image!</button>         
         </div>
         <hr/>
         <div>

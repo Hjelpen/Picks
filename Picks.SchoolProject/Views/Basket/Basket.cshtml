@@ -11,6 +11,13 @@
 }
 else
 {
+    if (Model.Count > 0)
+    {
+        <a href="@Url.Action("EmptyBasket", "Basket")" class="elements">
+            <span type="button" class="btn btn-danger">Empty basket!</span>
+        </a>
+    }
+    
     foreach (var item in Model)
     {
     <div class="container col-md-12">

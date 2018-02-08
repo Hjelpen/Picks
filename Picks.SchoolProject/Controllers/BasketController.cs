@@ -76,5 +76,15 @@ namespace Picks.SchoolProject.Controllers
 
             return File(zipReturn, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(zipReturn));
         }
+
+        public IActionResult EmptyBasket()
+        {
+
+            List<string> myImageList = new List<string>();
+
+            HttpContext.Session.Set("var", myImageList);
+
+            return RedirectToAction("Download", "Download");
+        }
     }
 }
