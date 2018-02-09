@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Picks.SchoolProject.Models.Image>
-@{
+﻿@{
     ViewData["Title"] = "Download";
 }
 
@@ -17,7 +16,7 @@
         }
     </div>
     <div>
-        @if (!Model.Any())
+        @if (Model == null)
         {
             <h1>No images found in this category!</h1>
         }
@@ -26,11 +25,11 @@
             <div class="container col-md-12">
                 @foreach (var item in Model)
                 {
-                    <img src="~/images/@item.Url" width="200" height="40" style="margin: 0 auto" alt="@item.Name" class="img-responsive" />
-                    <a href="@Url.Action("DownloadImage", "Download", new {url = @item.Url})" class="elements">
+                    <img src="~/images/@item" width="200" height="40" style="margin: 0 auto" alt="@item" class="img-responsive" />
+                    <a href="@Url.Action("DownloadImage", "Download", new {url = item})" class="elements">
                         <span>Download Image!</span>
                     </a>
-                    using (Html.BeginForm("Basket", "Download", new { file = item.Url }, FormMethod.Post))
+                    using (Html.BeginForm("Basket", "Download", new { file = item }, FormMethod.Post))
                     {
                         <input type="submit" value="Add to basket!" />
                     }

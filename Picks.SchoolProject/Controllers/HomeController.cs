@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Caching.Distributed;
 using Picks.SchoolProject.Data;
 using Picks.SchoolProject.Models;
-using System.Web;
+using Picks.SchoolProject.Utility;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Picks.SchoolProject.Controllers
 {
@@ -18,11 +18,13 @@ namespace Picks.SchoolProject.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IDistributedCache _cache;
 
-        public HomeController(ApplicationDbContext context, IHostingEnvironment environment)
+        public HomeController(ApplicationDbContext context, IHostingEnvironment environment, IDistributedCache cache)
         {
             _context = context;
             _hostingEnvironment = environment;
+            _cache = cache;
         }
 
         public async Task<IActionResult> Index()
@@ -71,8 +73,18 @@ namespace Picks.SchoolProject.Controllers
                 newImage.Name = file.FileName;
             }
 
+            var value = _cache.GetValue<List<string>>("key");
+
+            List<string> newList = new List<string>();
+            newList.AddRange(value);
+            newList.Add(newImage.Url);
+            _cache.SetValue("key", newList);
+
             _context.Images.Add(newImage);
             _context.SaveChanges();
+
+            
+
 
             return RedirectToAction("Index", "Home");
         }

@@ -30,10 +30,27 @@ namespace Picks.SchoolProject.Controllers
         {
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
 
-            if (id == 0)
-            {           
+            var value = _cache.GetValue<List<string>>("key");
+
+            List<string> myList = new List<string>();
+
+            if (value == null)
+            {
                 var imageList = _context.Images.OrderByDescending(x => x.Uploaded).ToList();
-                return View(imageList);
+
+                foreach (var item in imageList)
+                {
+                    myList.Add(item.Url);
+                }
+
+                _cache.SetValue("key", myList);
+                return View(myList);
+            }
+
+            if (id == 0)
+            {
+                myList = _cache.GetValue<List<string>>("key");
+                return View(myList);
             }
             else
             {
