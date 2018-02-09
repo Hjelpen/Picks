@@ -83,8 +83,6 @@ namespace Picks.SchoolProject.Controllers
             _context.Images.Add(newImage);
             _context.SaveChanges();
 
-            
-
 
             return RedirectToAction("Index", "Home");
         }

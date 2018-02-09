@@ -54,8 +54,13 @@ namespace Picks.SchoolProject.Controllers
             }
             else
             {
-                var imagequery = _context.Images.Where(x => x.CategoryId == id).OrderByDescending(x => x.Uploaded).ToList();        
-                return View(imagequery);
+                var imagequery = _context.Images.Where(x => x.CategoryId == id).OrderByDescending(x => x.Uploaded).ToList();
+                List<string> queryList = new List<string>();
+                foreach (var item in imagequery)
+                {
+                    queryList.Add(item.Url);
+                }
+                return View(queryList);
             }
         }
 
