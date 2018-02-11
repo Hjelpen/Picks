@@ -21,7 +21,7 @@ else
     foreach (var item in Model)
     {
     <div class="container col-md-12">
-        <img src="~/images/@item" width="200" height="40" style="margin: 0 auto " alt="image" class="img-responsive" />
+        <img src="https://hjelpenpicks.azureedge.net/images/@item" width="200" height="40" style="margin: 0 auto " alt="image" class="img-responsive" />
         <div>
             <a href="@Url.Action("DownloadImage", "Basket", new {url = @item})" class="elements">
                 <span>Download Image!</span>
